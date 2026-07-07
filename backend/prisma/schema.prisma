@@ -1,0 +1,66 @@
+// Prisma schema for the Task & Document Workspace backend.
+// Provider is PostgreSQL. Set DATABASE_URL in backend/.env (see .env.example).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String // bcrypt hash — never returned by the API
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Tasks/documents this user owns (created).
+  tasks           Task[]     @relation("TaskOwner")
+  // Tasks assigned to this user by someone (optional feature).
+  assignedTasks   Task[]     @relation("TaskAssignee")
+  documents       Document[] @relation("DocumentUploader")
+}
+
+model Task {
+  id          String    @id @default(cuid())
+  title       String
+  description String?
+  // Stored as human-readable strings so they match the frontend directly:
+  //   priority: "Low" | "Medium" | "High"
+  //   status:   "Pending" | "In Progress" | "Completed"
+  priority    String    @default("Medium")
+  status      String    @default("Pending")
+  dueDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  // Owner = the logged-in user who created the task.
+  ownerId String
+  owner   User   @relation("TaskOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+
+  // Optional: another user this task is assigned to.
+  assignedToId String?
+  assignedTo   User?   @relation("TaskAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
+
+  @@index([ownerId])
+  @@index([status])
+}
+
+model Document {
+  id         String   @id @default(cuid())
+  name       String
+  category   String? // e.g. Contract | Report | Invoice | Other
+  fileType   String? // e.g. PDF | DOCX | XLSX | PNG
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Uploaded by the logged-in user.
+  uploadedById String
+  uploadedBy   User   @relation("DocumentUploader", fields: [uploadedById], references: [id], onDelete: Cascade)
+
+  @@index([uploadedById])
+}

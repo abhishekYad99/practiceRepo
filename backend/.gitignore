@@ -1,0 +1,7 @@
+node_modules/
+.env
+.env.local
+*.log
+
+# Prisma generated client (regenerated via `prisma generate`)
+# (kept out of git; run npm install + prisma generate after clone)

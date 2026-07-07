@@ -1,0 +1,21 @@
+# Root-level ignores for the monorepo.
+# Frontend and backend also have their own .gitignore files.
+
+# dependencies (hoisted by npm workspaces)
+node_modules/
+**/node_modules/
+
+# env files (never commit real secrets / db links)
+.env
+.env.local
+.env*.local
+**/.env
+**/.env.local
+!**/.env.example
+
+# logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
