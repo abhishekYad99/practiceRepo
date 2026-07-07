@@ -276,6 +276,9 @@ Build as generic primitives in `src/components/ui/` and compose screens from the
 
 ## 11. Backend API reference
 
+> Full request/response examples with curl are in the standalone
+> [`API.md`](./API.md) — share that with the team. Summary below.
+
 Base URL: `http://localhost:4000/api` (set as `NEXT_PUBLIC_API_BASE_URL`).
 All routes except `/auth/signup` and `/auth/login` require
 `Authorization: Bearer <token>`.

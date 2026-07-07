@@ -12,6 +12,7 @@ Full-stack app to manage **tasks** and **documents** with **user accounts**.
 
 - **Full spec:** [`REQUIREMENTS.md`](./REQUIREMENTS.md)
 - **Frontend work split:** [`WORK_SPLIT.md`](./WORK_SPLIT.md)
+- **API reference:** [`API.md`](./API.md)
 
 This repo uses **npm workspaces**, so a single `npm install` at the root installs
 both apps.
