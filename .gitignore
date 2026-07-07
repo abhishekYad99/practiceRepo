@@ -5,13 +5,13 @@
 node_modules/
 **/node_modules/
 
-# env files (never commit real secrets / db links)
-.env
-.env.local
-.env*.local
-**/.env
-**/.env.local
-!**/.env.example
+# # env files (never commit real secrets / db links)
+# .env
+# .env.local
+# .env*.local
+# **/.env
+# **/.env.local
+# !**/.env.example
 
 # logs
 *.log
