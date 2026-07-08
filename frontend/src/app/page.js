@@ -1,98 +1,51 @@
-"use client";
-
-import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-
-import { login } from "@/services/authService";
-import { useAuthStore } from "@/stores/useAuthStore";
-
-export default function Login() {
-  const router = useRouter();
-
-  const setUser = useAuthStore((state) => state.setUser);
-
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setForm((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      setLoading(true);
-
-      const res = await login(form);
-
-      console.log("Login Response....... :", res);
-
-      // Save user in zustand
-
-      setUser({
-        ...res.user,
-        accessToken: res.accessToken || res.token,
-      });
-
-      router.push("/dashboard");
-    } catch (err) {
-      console.log(err);
-
-      alert(err.response?.data?.message || "Invalid Credentials");
-    } finally {
-      setLoading(false);
-    }
-  };
-
+export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-lg bg-white p-8 shadow-lg"
-      >
-        <h1 className="mb-6 text-center text-3xl font-bold">Login</h1>
-
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          value={form.email}
-          onChange={handleChange}
-          className="mb-4 w-full rounded border p-3 outline-none"
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={form.password}
-          onChange={handleChange}
-          className="mb-4 w-full rounded border p-3 outline-none"
-        />
-
-        <button
-          disabled={loading}
-          className="w-full rounded bg-blue-600 p-3 font-semibold text-white hover:bg-blue-700"
-        >
-          {loading ? "Logging..." : "Login"}
-        </button>
-
-        <p className="mt-5 text-center">
-          Don't have an account?
-          <Link href="/signup" className="ml-2 font-semibold text-blue-600">
-            Signup
-          </Link>
-        </p>
-      </form>
-    </div>
+    <main className="mx-auto flex max-w-2xl flex-1 flex-col justify-center gap-6 px-6 py-16">
+      {" "}
+      <div>
+        {" "}
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {" "}
+          Task &amp; Document Workspace{" "}
+        </h1>{" "}
+        <p className="mt-2 text-sm text-gray-500">
+          {" "}
+          Starter scaffold. This is your playground to build the app.{" "}
+        </p>{" "}
+      </div>{" "}
+      <div className="rounded-lg border border-gray-200 p-5 text-sm leading-relaxed">
+        {" "}
+        <p className="font-medium">Getting started</p>{" "}
+        <ol className="mt-2 list-inside list-decimal space-y-1 text-gray-600">
+          {" "}
+          <li>
+            {" "}
+            Read{" "}
+            <code className="rounded bg-gray-100 px-1">
+              REQUIREMENTS.md
+            </code>{" "}
+            for the full scope and acceptance criteria.{" "}
+          </li>{" "}
+          <li>
+            {" "}
+            Create a mockapi.io project and set{" "}
+            <code className="rounded bg-gray-100 px-1">
+              {" "}
+              NEXT_PUBLIC_API_BASE_URL{" "}
+            </code>{" "}
+            in <code className="rounded bg-gray-100 px-1">
+              .env.local
+            </code> (see{" "}
+            <code className="rounded bg-gray-100 px-1">.env.example</code>
+            ).{" "}
+          </li>{" "}
+          <li>Build the Dashboard, Tasks, and Documents modules.</li>{" "}
+        </ol>{" "}
+      </div>{" "}
+      <p className="text-xs text-gray-400">
+        {" "}
+        Replace this page with your Dashboard when you start building.{" "}
+      </p>{" "}
+    </main>
   );
 }
