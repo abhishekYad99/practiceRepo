@@ -11,12 +11,15 @@ import axios from "axios";
  * (taskService, documentService, userService) — never call axios or
  * fetch directly from components.
  */
+console.log("API BASE URL =", process.env.NEXT_PUBLIC_API_BASE_URL);
 const apiClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
+
+console.log("Axios Base URL =", apiClient.defaults.baseURL);
 
 // TODO (optional): add interceptors here for centralised error handling / logging.
 

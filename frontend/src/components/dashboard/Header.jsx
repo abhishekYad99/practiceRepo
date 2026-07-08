@@ -17,9 +17,6 @@ export default function Header() {
   return (
     <header className="flex h-16 items-center justify-between border-b bg-white px-6">
       <h1 className="text-2xl font-semibold">{title}</h1>
-      <button className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600">
-        Create New
-      </button>
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-100">
         user name
       </div>
