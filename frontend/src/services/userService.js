@@ -14,3 +14,8 @@ import apiClient from "./apiClient";
 export async function getUsers() {
   // TODO: return (await apiClient.get("/users")).data;
 }
+
+export const signup = async (data) => {
+  const response = await apiClient.post("/auth/signup", data);
+  return response.data;
+};
