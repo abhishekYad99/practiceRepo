@@ -58,7 +58,7 @@ export default function LoginPage() {
       setErrorMessage("Login was successful but no session was returned.");
     } catch (error) {
       setErrorMessage(
-        error?.response?.data?.message || "Unable to login in right now.",
+        error?.response?.data?.message || "Invalid email or password",
       );
     } finally {
       setLoading(false);
