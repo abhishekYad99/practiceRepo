@@ -35,12 +35,22 @@ export const createTask = async (payload) => {
   return data;
 };
 
-export async function updateTask(id, payload) {
-  // TODO: return (await apiClient.put(`/tasks/${id}`, payload)).data;
-}
+// export async function updateTask(id, payload) {
+//   // TODO: return (await apiClient.put(`/tasks/${id}`, payload)).data;
+// }
 
-export async function deleteTask(id) {
-  // TODO: return (await apiClient.delete(`/tasks/${id}`)).data;
-}
+export const updateTask = async (id, payload) => {
+  const response = await apiClient.put(`/tasks/${id}`, payload);
+  return response.data;
+};
+
+// export async function deleteTask(id) {
+//   // TODO: return (await apiClient.delete(`/tasks/${id}`)).data;
+// }
+
+export const deleteTask = async (id) => {
+  const response = await api.delete(`/tasks/${id}`);
+  return response.data;
+};
 
 
