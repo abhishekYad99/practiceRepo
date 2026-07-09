@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -57,7 +57,9 @@ export default function LoginPage() {
 
       setErrorMessage("Login was successful but no session was returned.");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "Unable to sign in right now.");
+      setErrorMessage(
+        error?.response?.data?.message || "Invalid email or password",
+      );
     } finally {
       setLoading(false);
     }
@@ -76,11 +78,15 @@ export default function LoginPage() {
 
         <h1 className="text-4xl font-bold text-gray-900">Welcome back</h1>
 
-        <p className="text-gray-500 mt-3 mb-8">Sign in to continue to your workspace.</p>
+        <p className="text-gray-500 mt-3 mb-8">
+         Welcome back — pick up where you left off.
+        </p>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block mb-2 font-semibold text-gray-700">Email</label>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Email
+            </label>
 
             <input
               type="email"
@@ -94,16 +100,20 @@ export default function LoginPage() {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold text-black">Password</label>
+            <label className="block mb-2 font-semibold text-black">
+              Password
+            </label>
 
             <input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
-              placeholder="Enter your password"
-              className="w-full h-14 rounded-xl border border-gray-300 px-4 outline-none focus:border-indigo-600"
-              required
+              className={`w-full h-14 rounded-xl border px-4 outline-none ${
+                formData.password.length > 0 && formData.password.length < 6
+                  ? "border-red-500"
+                  : "border-gray-300"
+              }`}
             />
           </div>
 

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,9 +9,14 @@ import { useAuthStore } from "@/stores/useAuthStore";
 export default function SignUpPage() {
   const router = useRouter();
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   useEffect(() => {
     if (isAuthenticated()) {
@@ -23,12 +28,19 @@ export default function SignUpPage() {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errorMessage) setErrorMessage("");
+    if (passwordError) setPasswordError("");
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (formData.password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      setErrorMessage("");
+      return;
+    }
     setLoading(true);
     setErrorMessage("");
+    setPasswordError("");
 
     try {
       const { data } = await apiClient.post("/auth/signup", {
@@ -47,7 +59,10 @@ export default function SignUpPage() {
 
       setErrorMessage("Signup was successful but no session was returned.");
     } catch (error) {
-      setErrorMessage(error?.response?.data?.message || "Unable to create your account right now.");
+      setErrorMessage(
+        error?.response?.data?.message ||
+          "Unable to create your account right now.",
+      );
     } finally {
       setLoading(false);
     }
@@ -66,11 +81,15 @@ export default function SignUpPage() {
 
         <h1 className="text-4xl font-bold text-gray-900">Create account</h1>
 
-        <p className="text-gray-500 mt-3 mb-8">Set up your workspace in a few seconds.</p>
+        <p className="text-gray-500 mt-3 mb-8">
+          Set up your workspace in a few seconds.
+        </p>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
-            <label className="block mb-2 font-semibold text-gray-700">Name</label>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Name
+            </label>
 
             <input
               type="text"
@@ -84,7 +103,9 @@ export default function SignUpPage() {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold text-gray-700">Email</label>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Email
+            </label>
 
             <input
               type="email"
@@ -98,7 +119,9 @@ export default function SignUpPage() {
           </div>
 
           <div>
-            <label className="block mb-2 font-semibold text-gray-700">Password</label>
+            <label className="block mb-2 font-semibold text-gray-700">
+              Password
+            </label>
 
             <input
               type="password"
@@ -106,9 +129,13 @@ export default function SignUpPage() {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              className="w-full h-14 rounded-xl border border-gray-300 px-4 outline-none focus:border-indigo-600"
-              required
+              className={`w-full h-14 rounded-xl border px-4 outline-none focus:border-indigo-600 ${
+                passwordError ? "border-red-500" : "border-gray-300"
+              }`}
             />
+            {passwordError && (
+              <p className="mt-2 text-sm text-red-500">{passwordError}</p>
+            )}
           </div>
 
           {errorMessage ? (
