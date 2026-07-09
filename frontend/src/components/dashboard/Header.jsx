@@ -20,7 +20,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex items-center justify-between border-b bg-white p-6">
+      <header className="flex items-center justify-between border-b border-gray-300 bg-white p-6">
         <h1 className="text-2xl font-semibold">
           {title}
         </h1>
