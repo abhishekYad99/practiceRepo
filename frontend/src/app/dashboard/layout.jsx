@@ -1,8 +1,11 @@
 import Sidebar from "@/components/dashboard/Sidebar";
 import Header from "@/components/dashboard/Header";
+import Taskpopu from "@/components/dashboard/Taskpopu";
+import { TaskProvider } from "@/context/TaskContext";
 
 export default function DashboardLayout({ children }) {
   return (
+    <TaskProvider>
     <div className="flex min-h-screen">
 
       <Sidebar />
@@ -12,14 +15,16 @@ export default function DashboardLayout({ children }) {
         <Header />
 
         <main className="p-6">
-
           {children}
 
         </main>
 
       </div>
 
+      <Taskpopu/>
+
     </div>
+    </TaskProvider>
   );
 }
 

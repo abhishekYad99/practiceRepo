@@ -2,13 +2,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { createTask } from "@/services/taskService";
+import { createTask,updateTask } from "@/services/taskService";
 import { getUsers } from "@/services/userService";
+import { useTask } from "@/context/TaskContext";
 
-function Taskpopu({ open, onClose }) {
+function Taskpopu({}) {
+
+   const {
+    open,
+    closePopup,
+    editingTask
+  } = useTask();
+
   if (!open) return null;
 
   const [users, setUsers] = useState([]);
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -18,6 +27,30 @@ function Taskpopu({ open, onClose }) {
     status: "Pending",
     dueDate: "",
   });
+
+  useEffect(() => {
+  if (editingTask) {
+    setFormData({
+      title: editingTask.title || "",
+      description: editingTask.description || "",
+      assignedUser: editingTask.assignedTo?.id || "",
+      priority: editingTask.priority || "Medium",
+      status: editingTask.status || "Pending",
+      dueDate: editingTask.dueDate
+        ? editingTask.dueDate.substring(0, 10)
+        : "",
+    });
+  } else {
+    setFormData({
+      title: "",
+      description: "",
+      assignedUser: "",
+      priority: "Medium",
+      status: "Pending",
+      dueDate: "",
+    });
+  }
+}, [editingTask]);
 
   const fetchUsers = async () => {
     try {
@@ -56,35 +89,66 @@ function Taskpopu({ open, onClose }) {
 
     console.log("Payload", payload);
 
+    // try {
+    //   const response = await createTask(payload);
+
+    //   console.log("Task Created ", response);
+
+    //   alert("Task Created Successfully");
+
+    //   // Tasks.jsx ko bolo dubara fetch kare
+    //   window.dispatchEvent(new Event("task-created"));
+
+    //   onClose();
+
+    //   setFormData({
+    //     title: "",
+    //     description: "",
+    //     assignedUser: "",
+    //     priority: "Medium",
+    //     status: "Pending",
+    //     dueDate: "",
+    //   });
+    // } catch (error) {
+    //   console.log("Error", error.response?.data);
+
+    //   alert(
+    //     error.response?.data?.message ||
+    //       JSON.stringify(error.response?.data) ||
+    //       "Something went wrong",
+    //   );
+    // }
+
     try {
-      const response = await createTask(payload);
 
-      console.log("Task Created ", response);
+  if (editingTask) {
 
-      alert("Task Created Successfully");
+    await updateTask(editingTask.id, payload);
 
-      // Tasks.jsx ko bolo dubara fetch kare
-      window.dispatchEvent(new Event("task-created"));
+    alert("Task Updated Successfully");
 
-      onClose();
+  } else {
 
-      setFormData({
-        title: "",
-        description: "",
-        assignedUser: "",
-        priority: "Medium",
-        status: "Pending",
-        dueDate: "",
-      });
-    } catch (error) {
-      console.log("Error", error.response?.data);
+    await createTask(payload);
 
-      alert(
-        error.response?.data?.message ||
-          JSON.stringify(error.response?.data) ||
-          "Something went wrong",
-      );
-    }
+    alert("Task Created Successfully");
+
+  }
+
+  window.dispatchEvent(new Event("task-created"));
+
+  closePopup();
+
+} catch (error) {
+
+  console.log(error);
+
+  alert(
+    error.response?.data?.message ||
+    "Something went wrong"
+  );
+
+}
   };
 
   return (
@@ -94,10 +158,10 @@ function Taskpopu({ open, onClose }) {
         <div className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between border-b pb-4">
-            <h2 className="text-2xl font-semibold">Add New Task</h2>
+            <h2 className="text-2xl font-semibold">{editingTask ? "Edit Task" : "Add New Task"}</h2>
 
             <button
-              onClick={onClose}
+              onClick={closePopup}
               className="text-2xl text-gray-500 hover:text-black"
             >
               ✕
@@ -217,7 +281,7 @@ function Taskpopu({ open, onClose }) {
             <div className="flex justify-end gap-3 border-t pt-5">
               <button
                 type="button"
-                onClick={onClose}
+                onClick={closePopup}
                 className="rounded-lg cursor-pointer border px-5 py-2 hover:bg-gray-100"
               >
                 Cancel
@@ -227,7 +291,7 @@ function Taskpopu({ open, onClose }) {
                 type="submit"
                 className="rounded-lg bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
               >
-                Create Task
+                {editingTask ? "Update Task" : "Create Task"}
               </button>
             </div>
           </form>

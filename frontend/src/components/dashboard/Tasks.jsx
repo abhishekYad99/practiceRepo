@@ -2,11 +2,14 @@
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
-import { getTasks } from "@/services/taskService";
+import { getTasks,deleteTask } from "@/services/taskService";
 import { useEffect, useState } from "react";
-
+import { useTask } from "@/context/TaskContext";
 export default function TaskTable() {
+
   const [tasks, setTasks] = useState([]);
+
+  const { openEditTask } = useTask();
 
   console.log(tasks,"rohit....")
 
@@ -33,10 +36,39 @@ const fetchTasks = async () => {
   }
 };
 
-const edittask = (task) =>{
-  console.log(task,"task edit.......")
-  alert(task.id)
-}
+// const edittask = (task) =>{
+//   console.log(task,"task edit.......")
+//   alert(task.id)
+// }
+
+// const handleDelete = (id) =>{
+//   alert(id)
+// }
+
+const handleDelete = async (id) => {
+  const confirmed = window.confirm(
+    "Are you sure you want to delete this task?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    await deleteTask(id);
+
+    alert("Task deleted successfully");
+
+    fetchTasks();
+
+
+  } catch (error) {
+    console.log(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to delete task"
+    );
+  }
+};
 
   const priorityClasses = {
     High: "bg-red-100 text-red-600",
@@ -132,11 +164,11 @@ const edittask = (task) =>{
                       <option>Completed</option>
                     </select>
 
-                    <button onClick={() =>edittask(task)} className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-[#4f46e5]/50 animation border-gray-300">
+                    <button  onClick={() => openEditTask(task)} className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-[#4f46e5]/50 animation border-gray-300">
                       <Pencil size={15} />
                     </button>
 
-                    <button className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-red-400 animation border-gray-300">
+                    <button  onClick={() => handleDelete(task.id)} className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-red-400 animation border-gray-300">
                       <Trash2 size={15} />
                     </button>
                   </div>

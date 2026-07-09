@@ -3,7 +3,7 @@
 
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import TaskPopup from "./Taskpopu";
+import { useTask } from "@/context/TaskContext";
 
 const pageTitles = {
   "/dashboard": "Dashboard",
@@ -14,7 +14,7 @@ const pageTitles = {
 export default function Header() {
   const pathname = usePathname();
 
-  const [openTaskModal, setOpenTaskModal] = useState(false);
+  const { openAddTask } = useTask();
 
   const title = pageTitles[pathname] || "Dashboard";
 
@@ -29,7 +29,7 @@ export default function Header() {
          <div className="mr-5">
            {pathname === "/dashboard/tasks" && (
             <button
-              onClick={() => setOpenTaskModal(true)}
+               onClick={openAddTask}
               className="rounded-lg bg-[#4f46e5] px-4 py-3 text-white"
             >
               + Add Task
@@ -43,11 +43,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Popup */}
-      <TaskPopup
-        open={openTaskModal}
-        onClose={() => setOpenTaskModal(false)}
-      />
+   
     </>
   );
 }
