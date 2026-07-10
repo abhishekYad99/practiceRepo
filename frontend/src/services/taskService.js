@@ -24,33 +24,38 @@ import apiClient from "./apiClient";
 //   // TODO: return (await apiClient.post("/tasks", payload)).data;
 // }
 
-export const getTasks = async () => {
-  const { data } = await apiClient.get("/tasks");
-  return data;
-};
-
-
-export const createTask = async (payload) => {
-  const { data } = await apiClient.post("/tasks", payload);
-  return data;
-};
-
 // export async function updateTask(id, payload) {
 //   // TODO: return (await apiClient.put(`/tasks/${id}`, payload)).data;
 // }
 
-export const updateTask = async (id, payload) => {
-  const response = await apiClient.put(`/tasks/${id}`, payload);
-  return response.data;
-};
 
 // export async function deleteTask(id) {
 //   // TODO: return (await apiClient.delete(`/tasks/${id}`)).data;
 // }
 
-export const deleteTask = async (id) => {
-  const response = await api.delete(`/tasks/${id}`);
-  return response.data;
-};
+// export const getTasks = async () => {
+//   const { data } = await apiClient.get("/tasks");
+//   return data;
+// };
+
+
+export async function getTasks() {
+  return (await apiClient.get("/tasks")).data;
+}
+
+export async function createTask(payload) {
+  return (await apiClient.post("/tasks", payload)).data;
+}
+
+export async function updateTask(id, payload) {
+  return (await apiClient.put(`/tasks/${id}`, payload)).data;
+}
+
+export async function deleteTask(id) {
+  return (await apiClient.delete(`/tasks/${id}`)).data;
+}
+
+
+
 
 

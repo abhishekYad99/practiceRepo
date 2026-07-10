@@ -6,10 +6,7 @@ import React from 'react'
 function page() {
   return (
    <div className=''>
-      <div className=''>
-         <Search/>
-      </div>
-     <div className='h-[600px] overflow-y-scrol mt-12'>
+     <div className='h-[600px] overflow-y-scrol'>
        <Tasks/>
     </div>
    </div>
