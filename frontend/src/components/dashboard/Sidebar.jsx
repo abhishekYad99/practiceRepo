@@ -30,8 +30,12 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-84 bg-[#0f1729] p-6 text-white">
-      <h2 className="mb-10 text-2xl font-bold">Workspace</h2>
+    <aside className="w-84 bg-[#0f1729] p-6 text-white flex flex-col gap-10">
+      
+      <div className="flex items-center gap-3 ml-1">
+          <h1 className="bg-[#4f46e5] w-8 h-8 flex justify-center items-center rounded-md font-bold">W</h1>
+         <h2 className="text-xl font-bold">Workspace</h2>
+      </div>
 
       <nav className="space-y-2">
         {menuItems.map((item) => {
