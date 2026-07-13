@@ -25,6 +25,7 @@ export const useAuthStore = create(
   persist(
     (set, get) => ({
       user: null,
+      hasHydrated: false,
 
       // Save the full user object (should include accessToken).
       setUser: (user) => set({ user }),
@@ -36,6 +37,8 @@ export const useAuthStore = create(
       // Clear the session (used on logout and by the axios 401 handler).
       clearUser: () => set({ user: null }),
 
+      setHasHydrated: (value) => set({ hasHydrated: value }),
+
       // Convenience getters.
       getToken: () => get().user?.accessToken ?? null,
       isAuthenticated: () => Boolean(get().user?.accessToken),
@@ -46,6 +49,9 @@ export const useAuthStore = create(
         typeof window !== 'undefined' ? window.localStorage : noopStorage
       ),
       partialize: (state) => ({ user: state.user }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHasHydrated(true);
+      },
     }
   )
 );

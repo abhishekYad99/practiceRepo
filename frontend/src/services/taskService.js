@@ -1,3 +1,4 @@
+
 import apiClient from "./apiClient";
 
 /**
@@ -15,18 +16,46 @@ import apiClient from "./apiClient";
  * TODO: implement the functions below.
  */
 
+// export async function getTasks() {
+//   // TODO: return (await apiClient.get("/tasks")).data;
+// }
+
+// export async function createTask(payload) {
+//   // TODO: return (await apiClient.post("/tasks", payload)).data;
+// }
+
+// export async function updateTask(id, payload) {
+//   // TODO: return (await apiClient.put(`/tasks/${id}`, payload)).data;
+// }
+
+
+// export async function deleteTask(id) {
+//   // TODO: return (await apiClient.delete(`/tasks/${id}`)).data;
+// }
+
+// export const getTasks = async () => {
+//   const { data } = await apiClient.get("/tasks");
+//   return data;
+// };
+
+
 export async function getTasks() {
-  // TODO: return (await apiClient.get("/tasks")).data;
+  return (await apiClient.get("/tasks")).data;
 }
 
 export async function createTask(payload) {
-  // TODO: return (await apiClient.post("/tasks", payload)).data;
+  return (await apiClient.post("/tasks", payload)).data;
 }
 
 export async function updateTask(id, payload) {
-  // TODO: return (await apiClient.put(`/tasks/${id}`, payload)).data;
+  return (await apiClient.put(`/tasks/${id}`, payload)).data;
 }
 
 export async function deleteTask(id) {
-  // TODO: return (await apiClient.delete(`/tasks/${id}`)).data;
+  return (await apiClient.delete(`/tasks/${id}`)).data;
 }
+
+
+
+
+
