@@ -27,6 +27,8 @@ function Taskpopu({}) {
     status: "Pending",
     dueDate: "",
   });
+ 
+  console.log(formData,"formdata rohit....")
 
   useEffect(() => {
   if (editingTask) {
@@ -158,7 +160,7 @@ function Taskpopu({}) {
         <div className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between border-b pb-4">
-            <h2 className="text-2xl font-semibold">{editingTask ? "Edit Task" : "New Task"}</h2>
+            <h2 className="text-2xl font-semibold">{editingTask ? "Edit Task" : "Add New Task"}</h2>
 
             <button
               onClick={closePopup}
@@ -277,7 +279,7 @@ function Taskpopu({}) {
               </div>
             </div>
 
-         
+            {/* Footer */}
             <div className="flex justify-end gap-3 border-t pt-5">
               <button
                 type="button"
@@ -289,7 +291,7 @@ function Taskpopu({}) {
 
               <button
                 type="submit"
-                className="rounded-lg cursor-pointer bg-blue-600 px-5 py-2 text-white hover:bg-blue-700"
+                className="rounded-lg bg-blue-600 cursor-pointer px-5 py-2 text-white hover:bg-blue-700"
               >
                 {editingTask ? "Update Task" : "Create Task"}
               </button>
@@ -302,4 +304,3 @@ function Taskpopu({}) {
 }
 
 export default Taskpopu;
-
