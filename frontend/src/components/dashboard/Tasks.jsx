@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
@@ -69,9 +68,9 @@ export default function TaskTable() {
   //     fetchTasks();
 
   //   } catch (error) {
-    //  console.log("delete Error:", error);
-    // console.log("response:", error.response);
-    // console.log("aata:", error.response?.data);
+  //  console.log("delete Error:", error);
+  // console.log("response:", error.response);
+  // console.log("aata:", error.response?.data);
 
   //     alert(
   //       error.response?.data?.message ||
@@ -82,8 +81,7 @@ export default function TaskTable() {
 
   const handleDelete = async () => {
     try {
-
-       setLoadingDelete(true);
+      setLoadingDelete(true);
       await deleteTask(selectedTaskId);
 
       // alert("Task deleted successfully");
@@ -94,14 +92,14 @@ export default function TaskTable() {
       fetchTasks();
     } catch (error) {
       // console.log(error);
-    console.log("delete Error:", error);
-    console.log("response:", error.response);
-    console.log("data:", error.response?.data);
+      console.log("delete Error:", error);
+      console.log("response:", error.response);
+      console.log("data:", error.response?.data);
 
-     alert(error.response?.data?.message || "Failed to delete task");
+      alert(error.response?.data?.message || "Failed to delete task");
     } finally {
-    setLoadingDelete(false);
-  }
+      setLoadingDelete(false);
+    }
   };
 
   const priorityClasses = {
@@ -116,17 +114,35 @@ export default function TaskTable() {
     Completed: "bg-green-100 text-green-600",
   };
 
+  const isToday = (date) => {
+    if (!date) return false;
+
+    const today = new Date();
+    const taskDate = new Date(date);
+
+    return (
+      today.getFullYear() === taskDate.getFullYear() &&
+      today.getMonth() === taskDate.getMonth() &&
+      today.getDate() === taskDate.getDate()
+    );
+  };
+
   const filterdtask = tasks.filter((task) => {
     const matchsearch = task.title.toLowerCase().includes(serach.toLowerCase());
 
     const matchStatus =
       statusFillter === "All statuses" || task.status === statusFillter;
 
+      // console.log(matchStatus,"matchstatus")
+
     const matchPriority =
       priorityFilter === "All priorties" || task.priority === priorityFilter;
 
+      // console.log(matchPriority,"matchPriority")
+
     return matchsearch && matchStatus && matchPriority;
   });
+
 
   return (
     <div className="flex flex-col gap-8">
@@ -203,7 +219,23 @@ export default function TaskTable() {
                   </td>
 
                   {/* Due Date */}
-                  <td className="px-5 py-5">
+                  {/* <td className="px-5 py-5">
+                    {task.dueDate
+                      ? new Date(task.dueDate).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                      : "--"}
+                  </td> */}
+
+                  <td
+                    className={`px-5 py-5 ${
+                      isToday(task.dueDate)
+                        ? "font-medium text-base text-red-600"
+                        : "text-gray-900"
+                    }`}
+                  >
                     {task.dueDate
                       ? new Date(task.dueDate).toLocaleDateString("en-US", {
                           month: "short",
@@ -254,14 +286,15 @@ export default function TaskTable() {
       </div>
 
       <DeletePopup
-          open={deleteOpen}
-          loading={loadingDelete}
-          onClose={() => {
+        open={deleteOpen}
+        loading={loadingDelete}
+        onClose={() => {
           setDeleteOpen(false);
           setSelectedTaskId(null);
-         }}
-         onDelete={handleDelete}
+        }}
+        onDelete={handleDelete}
       />
     </div>
   );
 }
+

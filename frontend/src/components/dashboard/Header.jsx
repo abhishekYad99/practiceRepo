@@ -82,16 +82,16 @@ export default function Header() {
         <h1 className="text-2xl font-semibold">{title}</h1>
 
         <div className="flex items-center gap-4">
-          <div className="mr-5">
-            {pathname === "/dashboard/tasks" && (
-              <button
-                onClick={openAddTask}
-                className="rounded-lg bg-[#4f46e5] px-4 py-3 text-white"
-              >
-                + Add Task
-              </button>
-            )}
-          </div>
+         <div className="mr-5">
+           {pathname === "/dashboard/tasks" && (
+            <button
+               onClick={openAddTask}
+              className="rounded-lg bg-[#4f46e5] px-4 py-3 cursor-pointer text-white"
+            >
+              + Add Task
+            </button>
+          )}
+         </div>
 
           <div className="relative" ref={menuRef}>
             <button
