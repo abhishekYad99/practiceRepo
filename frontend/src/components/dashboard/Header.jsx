@@ -30,7 +30,7 @@ export default function Header() {
            {pathname === "/dashboard/tasks" && (
             <button
                onClick={openAddTask}
-              className="rounded-lg bg-[#4f46e5] px-4 py-3 text-white"
+              className="rounded-lg bg-[#4f46e5] px-4 py-3 cursor-pointer text-white"
             >
               + Add Task
             </button>
