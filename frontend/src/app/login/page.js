@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import apiClient from "@/services/apiClient";
 import { useAuthStore } from "@/stores/useAuthStore";
 
@@ -10,22 +10,10 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setUser = useAuthStore((state) => state.setUser);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-
-  useEffect(() => {
-    if (isAuthenticated()) {
-      router.replace("/dashboard");
-      return;
-    }
-
-    if (searchParams.get("signup") === "success") {
-      setSuccessMessage("Account created successfully. Please sign in.");
-    }
-  }, [isAuthenticated, router, searchParams]);
+  const signupSuccess = searchParams.get("signup") === "success";
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -79,7 +67,7 @@ export default function LoginPage() {
         <h1 className="text-4xl font-bold text-gray-900">Welcome back</h1>
 
         <p className="text-gray-500 mt-3 mb-8">
-         Welcome back — pick up where you left off.
+          Welcome back - pick up where you left off.
         </p>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -117,9 +105,9 @@ export default function LoginPage() {
             />
           </div>
 
-          {successMessage ? (
+          {signupSuccess ? (
             <div className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-              {successMessage}
+              Account created successfully. Please sign in.
             </div>
           ) : null}
 
