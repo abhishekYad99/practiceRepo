@@ -76,6 +76,7 @@ const cards = [
 export default function Dashboard() {
   const router = useRouter();
   const token = useAuthStore((state) => state.user?.accessToken);
+  const hasHydrated = useAuthStore((state) => state.hasHydrated);
 
   const [dashboard, setDashboard] = useState(initialDashboard);
   const [loading, setLoading] = useState(true);
@@ -106,15 +107,17 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
+    if (!hasHydrated) return;
+
     if (!token) {
       router.replace("/login");
       return;
     }
 
     fetchDashboard();
-  }, [token, router]);
+  }, [hasHydrated, token, router]);
 
-  if (!token) return null;
+  if (!hasHydrated || !token) return null;
 
   return (
     <div className="space-y-6">
