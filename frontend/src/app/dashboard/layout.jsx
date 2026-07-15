@@ -6,7 +6,7 @@ import { TaskProvider } from "@/context/TaskContext";
 export default function DashboardLayout({ children }) {
   return (
     <TaskProvider>
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-gray-100">
 
       <Sidebar />
 
@@ -16,7 +16,6 @@ export default function DashboardLayout({ children }) {
 
         <main className="p-6">
           {children}
-
         </main>
 
       </div>
