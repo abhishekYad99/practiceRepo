@@ -20,7 +20,7 @@ const listDocuments = asyncHandler(async (req, res) => {
     include: documentInclude,
     orderBy: { createdAt: "desc" },
   });
-  res.json(documents);
+  res.json({ items: documents });
 });
 
 // POST /api/documents  (protected)

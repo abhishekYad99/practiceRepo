@@ -47,7 +47,7 @@ const me = asyncHandler(async (req, res) => {
   if (!user) {
     throw new ApiError(404, "User not found");
   }
-  res.json({ user: toPublicUser(user) });
+  res.json(toPublicUser(user));
 });
 
 module.exports = { signup, login, me };
