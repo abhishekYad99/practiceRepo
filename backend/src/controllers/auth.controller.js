@@ -32,7 +32,7 @@ const login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid email or password");
   }
 
-  const ok = await bcrypt.compare(password, user.password);
+  const ok = await bcrypt.compare(user.password, password);
   if (!ok) {
     throw new ApiError(401, "Invalid email or password");
   }

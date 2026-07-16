@@ -21,7 +21,7 @@ const getSummary = asyncHandler(async (req, res) => {
     await Promise.all([
       prisma.task.count({ where: scope }),
       prisma.task.count({ where: { AND: [scope, { status: "Pending" }] } }),
-      prisma.task.count({ where: { AND: [scope, { status: "In Progress" }] } }),
+      prisma.task.count({ where: { AND: [scope, { status: "InProgress" }] } }),
       prisma.task.count({ where: { AND: [scope, { status: "Completed" }] } }),
       prisma.task.count({
         where: {
