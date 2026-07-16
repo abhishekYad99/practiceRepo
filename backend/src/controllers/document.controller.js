@@ -13,7 +13,7 @@ const listDocuments = asyncHandler(async (req, res) => {
   const where = { AND: [{ uploadedById: req.user.id }] };
   if (category) where.AND.push({ category });
   if (fileType) where.AND.push({ fileType });
-  if (search) where.AND.push({ category: { contains: search, mode: "insensitive" } });
+  if (search) where.AND.push({ name: { contains: search, mode: "insensitive" } });
 
   const documents = await prisma.document.findMany({
     where,

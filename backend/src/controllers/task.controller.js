@@ -30,7 +30,7 @@ const listTasks = asyncHandler(async (req, res) => {
       where,
       include: taskInclude,
       orderBy: { createdAt: "desc" },
-      skip: page * pageSize,
+      skip: (page - 1) * pageSize,
       take: pageSize,
     }),
     prisma.task.count({ where }),
