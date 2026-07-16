@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { createTask,updateTask } from "@/services/taskService";
 import { getUsers } from "@/services/userService";
 import { useTask } from "@/context/TaskContext";
+import useTaskStore from "@/stores/taskStore";
+
 
 function Taskpopu({}) {
 
@@ -14,9 +16,13 @@ function Taskpopu({}) {
     editingTask
   } = useTask();
 
+
   if (!open) return null;
 
+  const {addTask,editTask} = useTaskStore()
+
   const [users, setUsers] = useState([]);
+ 
 
 
   const [formData, setFormData] = useState({
@@ -125,19 +131,19 @@ function Taskpopu({}) {
 
   if (editingTask) {
 
-    await updateTask(editingTask.id, payload);
+    await editTask(editingTask.id, payload);
 
     alert("Task Updated Successfully");
 
   } else {
 
-    await createTask(payload);
+    await addTask(payload);
 
     alert("Task Created Successfully");
 
   }
 
-  window.dispatchEvent(new Event("task-created"));
+ 
 
   closePopup();
 
@@ -304,3 +310,5 @@ function Taskpopu({}) {
 }
 
 export default Taskpopu;
+
+

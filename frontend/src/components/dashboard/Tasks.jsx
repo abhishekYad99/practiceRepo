@@ -1,13 +1,14 @@
+
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
 import { getTasks, deleteTask } from "@/services/taskService";
+import useTaskStore from "@/stores/taskStore";
 import { useEffect, useState } from "react";
 import { useTask } from "@/context/TaskContext";
 import Search from "./Search";
 import DeletePopup from "./DeletePopup";
 export default function TaskTable() {
-  const [tasks, setTasks] = useState([]);
 
   const [serach, setSearch] = useState("");
   const [statusFillter, setStatusFillter] = useState("All statuses");
@@ -19,77 +20,27 @@ export default function TaskTable() {
 
   const { openEditTask } = useTask();
 
-  console.log(tasks, "rohit....");
+  const {tasks,fetchtask,removeTask} = useTaskStore()
+
+  console.log(tasks,"tasks store rohit")
 
   useEffect(() => {
-    fetchTasks();
 
-    const refreshTasks = () => {
-      fetchTasks();
-    };
+   fetchtask()
 
-    window.addEventListener("task-created", refreshTasks);
-
-    return () => {
-      window.removeEventListener("task-created", refreshTasks);
-    };
   }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await getTasks();
-      setTasks(response.items || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // const edittask = (task) =>{
-  //   console.log(task,"task edit.......")
-  //   alert(task.id)
-  // }
-
-  // const handleDelete = (id) =>{
-  //   alert(id)
-  // }
-
-  // const handleDelete = async (id) => {
-  //   const confirmed = window.confirm(
-  //     "Are you sure you want to delete this task?"
-  //   );
-
-  //   if (!confirmed) return;
-
-  //   try {
-  //     await deleteTask(id);
-
-  //     alert("Task deleted successfully");
-
-  //     fetchTasks();
-
-  //   } catch (error) {
-  //  console.log("delete Error:", error);
-  // console.log("response:", error.response);
-  // console.log("aata:", error.response?.data);
-
-  //     alert(
-  //       error.response?.data?.message ||
-  //       "Failed to delete task"
-  //     );
-  //   }
-  // };
 
   const handleDelete = async () => {
     try {
       setLoadingDelete(true);
-      await deleteTask(selectedTaskId);
+      await removeTask(selectedTaskId);
 
       // alert("Task deleted successfully");
 
       setDeleteOpen(false);
       setSelectedTaskId(null);
 
-      fetchTasks();
     } catch (error) {
       // console.log(error);
       console.log("delete Error:", error);
@@ -297,4 +248,6 @@ export default function TaskTable() {
     </div>
   );
 }
+
+
 
