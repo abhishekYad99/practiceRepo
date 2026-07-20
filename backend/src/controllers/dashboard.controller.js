@@ -36,7 +36,7 @@ const getSummary = asyncHandler(async (req, res) => {
     ]);
 
   res.json({
-    totalTasks: total,
+    total,
     pending,
     inProgress,
     completed,

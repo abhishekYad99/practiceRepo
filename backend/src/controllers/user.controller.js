@@ -9,7 +9,7 @@ const listUsers = asyncHandler(async (req, res) => {
     orderBy: { name: "asc" },
     select: { id: true, name: true, email: true, createdAt: true },
   });
-  res.json(users);
+  res.json({ items: users });
 });
 
 // PATCH /api/users/me  (protected)

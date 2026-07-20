@@ -13,9 +13,9 @@ const useTaskStore = create((set) => ({
       try {
 
        const response = await getTasks()
-
+       console.log(response,"check rohit store...")
        set({
-        tasks: response.items || [],
+        tasks: response.results || [],
        });
 
       } catch (error) {
@@ -34,7 +34,7 @@ const useTaskStore = create((set) => ({
        const response = await getTasks()
 
        set({
-        tasks: response.items || [],
+        tasks: response.results || [],
        });
 
       } catch (error) {
@@ -53,7 +53,7 @@ const useTaskStore = create((set) => ({
        const response = await getTasks()
 
        set({
-        tasks: response.items || [],
+        tasks: response.results || [],
        });
 
       } catch (error) {
@@ -73,7 +73,7 @@ const useTaskStore = create((set) => ({
        const response = await getTasks()
 
        set({
-        tasks: response.items || [],
+        tasks: response.results || [],
        });
 
       } catch (error) {
