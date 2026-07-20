@@ -17,10 +17,13 @@ export default function LoginPage() {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log(name, value, "name and value");
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errorMessage) setErrorMessage("");
   };
 
+
+  console.log(formData, "formdata rohit....");
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
@@ -77,13 +80,13 @@ export default function LoginPage() {
             </label>
 
             <input
-              type="email"
-              name="email"
+            
+                name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
               className="w-full h-14 rounded-xl border border-gray-300 px-4 outline-none focus:border-indigo-600"
-              required
+             
             />
           </div>
 
@@ -93,9 +96,9 @@ export default function LoginPage() {
             </label>
 
             <input
-              type="password"
+              // type="password"
               name="password"
-              value={formData.password}
+              // value={formData.password}
               onChange={handleChange}
               className={`w-full h-14 rounded-xl border px-4 outline-none ${
                 formData.password.length > 0 && formData.password.length < 6
