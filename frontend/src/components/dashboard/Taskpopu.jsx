@@ -17,6 +17,7 @@ function Taskpopu({}) {
   if (!open) return null;
 
   const [users, setUsers] = useState([]);
+  console.log("Users State =", users);
 
 
   const [formData, setFormData] = useState({
@@ -58,7 +59,7 @@ function Taskpopu({}) {
     try {
       const response = await getUsers();
 
-      console.log("Users", response);
+   console.log("Users Fetched", response);
 
       setUsers(response);
     } catch (error) {
@@ -221,7 +222,7 @@ function Taskpopu({}) {
                 >
                   <option value="">Unassigned</option>
 
-                  {users.map((user) => (
+                  {users.items?.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name}
                     </option>
