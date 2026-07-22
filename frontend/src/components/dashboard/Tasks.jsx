@@ -11,7 +11,6 @@ import Loading from "./Loading";
 import NoTask from "./NoTask";
 import Error from "./Error";
 export default function TaskTable() {
-
   const [serach, setSearch] = useState("");
   const [statusFillter, setStatusFillter] = useState("All statuses");
   const [priorityFilter, setPriorityFilter] = useState("All priorties");
@@ -20,23 +19,18 @@ export default function TaskTable() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
+  const { openEditTask, openAddTask } = useTask();
 
-  const { openEditTask,openAddTask} = useTask();
-
-  const {tasks,fetchtask,removeTask,loading,error} = useTaskStore()
+  const { tasks, fetchtask, removeTask, loading, error } = useTaskStore();
 
   // console.log(tasks,"tasks store rohit")
 
   // console.log(loading,"loading..............")
   // console.log(error,"error...")
-  
 
   useEffect(() => {
-
-   fetchtask()
-
+    fetchtask();
   }, []);
-
 
   const handleDelete = async () => {
     try {
@@ -47,7 +41,6 @@ export default function TaskTable() {
 
       setDeleteOpen(false);
       setSelectedTaskId(null);
-
     } catch (error) {
       // console.log(error);
       console.log("delete Error:", error);
@@ -101,27 +94,17 @@ export default function TaskTable() {
     return matchsearch && matchStatus && matchPriority;
   });
 
-  
-    if(loading){
-      return <Loading/>
-    }
+  if (loading) {
+    return <Loading />;
+  }
 
-    if(error){
-      return (
-        <Error
-         onRetry={fetchtask}
-        />
-      )
-    }
+  if (error) {
+    return <Error onRetry={fetchtask} />;
+  }
 
-    if(tasks.length === 0){
-      return(
-         <NoTask
-         onAddTask={openAddTask}
-         />
-      )
-    }
-
+  if (tasks.length === 0) {
+    return <NoTask onAddTask={openAddTask} />;
+  }
 
   return (
     <div className="flex flex-col gap-8">
@@ -135,8 +118,8 @@ export default function TaskTable() {
           setPriority={setPriorityFilter}
         />
       </div>
-      <div className="overflow-hidden rounded-xl border border-gray-300 bg-white shadow-sm">
-        <table className="w-full">
+      <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-xl border border-gray-300 bg-white shadow-sm">
+        <table className="w-full min-w-[1100px]">
           <thead className="border-b border-gray-300 bg-gray-50 text-sm text-gray-500">
             <tr>
               <th className="px-5 py-4 text-left font-medium">TITLE</th>
@@ -156,27 +139,29 @@ export default function TaskTable() {
                   className="border-b border-gray-300 bg-white last:border-none"
                 >
                   {/* Title */}
-                  <td className="px-5 py-5 font-medium text-gray-900">
+                  <td className="px-3 md:px-5 py-4 md:py-5 text-sm lg:text-base font-medium text-gray-900">
                     {task.title}
                   </td>
 
                   {/* Assigned User */}
                   <td className="px-5 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-100 text-xs font-semibold text-indigo-600">
+                      <div className="flex h-7 w-7 md:h-8 md:w-8 items-center justify-center rounded-full bg-indigo-100 text-[10px] md:text-xs font-semibold text-indigo-600">
                         {task.assignedTo?.name
                           ? task.assignedTo.name.substring(0, 2).toUpperCase()
                           : "--"}
                       </div>
 
-                      <span>{task.assignedTo?.name || "Unassigned"}</span>
+                      <span className="text-xs md:text-sm">
+                        {task.assignedTo?.name || "Unassigned"}
+                      </span>
                     </div>
                   </td>
 
                   {/* Priority */}
                   <td className="px-5 py-5">
                     <span
-                      className={`rounded-full px-4 py-1 text-sm font-medium ${
+                      className={`inline-flex items-center rounded-full px-2 md:px-4 py-1 text-xs md:text-sm font-medium whitespace-nowrap ${
                         priorityClasses[task.priority] ||
                         "bg-gray-100 text-gray-600"
                       }`}
@@ -188,7 +173,7 @@ export default function TaskTable() {
                   {/* Status */}
                   <td className="px-5 py-5">
                     <span
-                      className={`rounded-full px-4 py-1 text-sm font-medium ${
+                      className={`inline-flex items-center rounded-full px-2 md:px-4 py-1 text-xs md:text-sm font-medium whitespace-nowrap ${
                         statusClasses[task.status] ||
                         "bg-gray-100 text-gray-600"
                       }`}
@@ -209,9 +194,9 @@ export default function TaskTable() {
                   </td> */}
 
                   <td
-                    className={`px-5 py-5 ${
+                    className={`px-3 md:px-5 py-4 md:py-5 text-xs md:text-sm ${
                       isToday(task.dueDate)
-                        ? "font-medium text-base text-red-600"
+                        ? "font-medium text-red-600"
                         : "text-gray-900"
                     }`}
                   >
@@ -226,8 +211,8 @@ export default function TaskTable() {
 
                   {/* Actions */}
                   <td className="px-5 py-5">
-                    <div className="flex items-center justify-center gap-2">
-                      <select className="rounded-md border bg-white cursor-pointer border-gray-300 px-3 py-2 text-sm outline-none">
+                    <div className="flex items-center justify-center gap-1 md:gap-2">
+                      <select className="rounded-md border border-gray-300 px-2 md:px-3 py-2 text-xs md:text-sm">
                         <option>Pending</option>
                         <option>In Progress</option>
                         <option>Completed</option>
@@ -235,7 +220,7 @@ export default function TaskTable() {
 
                       <button
                         onClick={() => openEditTask(task)}
-                        className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-[#4f46e5]/50 animation border-gray-300"
+                        className="rounded-md border p-2 md:px-3 md:py-3 bg-white cursor-pointer hover:bg-[#4f46e5]/50 animation border-gray-300"
                       >
                         <Pencil size={15} />
                       </button>
@@ -245,7 +230,7 @@ export default function TaskTable() {
                           setSelectedTaskId(task.id);
                           setDeleteOpen(true);
                         }}
-                        className="rounded-md border px-3 py-3 bg-white cursor-pointer hover:bg-red-400 animation border-gray-300"
+                        className="rounded-md border p-2 md:px-3 md:py-3 bg-white cursor-pointer hover:bg-red-400 animation border-gray-300"
                       >
                         <Trash2 size={15} />
                       </button>
@@ -276,12 +261,3 @@ export default function TaskTable() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
-

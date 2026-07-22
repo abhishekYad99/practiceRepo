@@ -10,8 +10,8 @@ function Search({
   setPriority,
 }) {
   return (
-    <div className="w-[100%] flex gap-4">
-      <div className="w-[80%] h-12 cursor-pointer rounded-md border border-gray-300 bg-white p-3 focus-within:border-blue-500">
+    <div className="w-[100%] flex flex-col gap-3 xl:flex-row">
+      <div className="w-full xl:w-[80%] h-12 cursor-pointer rounded-md border border-gray-300 bg-white p-3 focus-within:border-blue-500">
         <input
           onChange={(e) => setSearch(e.target.value)}
           value={serach}
@@ -20,7 +20,7 @@ function Search({
           placeholder=" ⌕    Search tasks..."
         />
       </div>
-      <div className="w-[40%] flex gap-2">
+      <div className="w-full xl:w-[40%] flex gap-2">
         <div className="relative w-full">
           <ChevronDown
             size={20}
