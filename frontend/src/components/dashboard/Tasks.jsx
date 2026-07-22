@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Pencil, Trash2 } from "lucide-react";
@@ -8,6 +7,9 @@ import { useEffect, useState } from "react";
 import { useTask } from "@/context/TaskContext";
 import Search from "./Search";
 import DeletePopup from "./DeletePopup";
+import Loading from "./Loading";
+import NoTask from "./NoTask";
+import Error from "./Error";
 export default function TaskTable() {
 
   const [serach, setSearch] = useState("");
@@ -18,11 +20,16 @@ export default function TaskTable() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const { openEditTask } = useTask();
 
-  const {tasks,fetchtask,removeTask} = useTaskStore()
+  const { openEditTask,openAddTask} = useTask();
 
-  console.log(tasks,"tasks store rohit")
+  const {tasks,fetchtask,removeTask,loading,error} = useTaskStore()
+
+  // console.log(tasks,"tasks store rohit")
+
+  // console.log(loading,"loading..............")
+  // console.log(error,"error...")
+  
 
   useEffect(() => {
 
@@ -94,10 +101,31 @@ export default function TaskTable() {
     return matchsearch && matchStatus && matchPriority;
   });
 
+  
+    if(loading){
+      return <Loading/>
+    }
+
+    if(error){
+      return (
+        <Error
+         onRetry={fetchtask}
+        />
+      )
+    }
+
+    if(tasks.length === 0){
+      return(
+         <NoTask
+         onAddTask={openAddTask}
+         />
+      )
+    }
+
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      <div className="">
         <Search
           serach={serach}
           setSearch={setSearch}
@@ -248,6 +276,12 @@ export default function TaskTable() {
     </div>
   );
 }
+
+
+
+
+
+
 
 
 

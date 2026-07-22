@@ -4,7 +4,9 @@ import { getTasks,createTask,updateTask,deleteTask } from "@/services/taskServic
 
 const useTaskStore = create((set) => ({
    
-    tasks: [],
+   tasks: [],
+   loading: false,
+   error: null,
 
    // get task....
 
@@ -12,14 +14,31 @@ const useTaskStore = create((set) => ({
 
       try {
 
+      //  api start
+        set({
+          loading: true,
+          error: null
+        })
+
        const response = await getTasks()
-       console.log(response,"check rohit store...")
+
+      //  console.log(response,"check rohit store...")
+
+      //  api success
+
        set({
         tasks: response.results || [],
+        loading:false,
        });
 
       } catch (error) {
         console.log(error)
+
+        // api error
+        set({
+          loading:false,
+          error:error.message
+        })
       }
     },
 
@@ -84,5 +103,6 @@ const useTaskStore = create((set) => ({
 
 
 }))
+
 
 export default useTaskStore;
