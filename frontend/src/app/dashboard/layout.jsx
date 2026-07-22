@@ -10,11 +10,11 @@ export default function DashboardLayout({ children }) {
 
       <Sidebar />
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col overflow-hidden">
 
         <Header />
 
-        <main className="p-6">
+        <main className="p-4 md:p-6">
           {children}
         </main>
 

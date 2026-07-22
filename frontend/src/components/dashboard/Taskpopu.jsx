@@ -25,7 +25,7 @@ function Taskpopu({}) {
   const {addTask,editTask} = useTaskStore()
 
   const [users, setUsers] = useState([]);
- 
+  //  console.log(users,"users..rohit..")
 
  const [loading,setLoading] = useState(false)
 
@@ -38,7 +38,7 @@ function Taskpopu({}) {
     dueDate: "",
   });
  
-  console.log(formData,"formdata rohit....")
+  // console.log(formData,"formdata rohit....")
 
   useEffect(() => {
   if (editingTask) {
@@ -173,7 +173,7 @@ function Taskpopu({}) {
     <div className="flex flex-col p-6">
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-        <div className="w-full max-w-2xl rounded-xl bg-white p-6 shadow-xl">
+        <div className="w-full max-w-2xl mx-4 rounded-xl bg-white p-4 md:p-6 shadow-xl">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between border-b pb-4">
             <h2 className="text-2xl font-semibold">{editingTask ? "Edit Task" : "Add New Task"}</h2>
@@ -237,7 +237,7 @@ function Taskpopu({}) {
                 >
                   <option value="">Unassigned</option>
 
-                  {users.items?.map((user) => (
+                  {users?.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name}
                     </option>

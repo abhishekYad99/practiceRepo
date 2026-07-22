@@ -66,18 +66,26 @@ export default function Header() {
 
   return (
     <>
-      <header className="flex items-center justify-between border-b border-gray-300 bg-white p-6">
-        <h1 className="text-2xl font-semibold">{title}</h1>
+      <header className="flex items-center justify-between border-b border-gray-300 bg-white p-4 md:p-6">
+        <h1 className="text-lg md:text-2xl font-semibold">{title}</h1>
 
         <div className="flex items-center gap-4">
           <div className="mr-5">
             {pathname === "/dashboard/tasks" && (
-              <button
+           <>
+                 <button
                 onClick={openAddTask}
-                className={`rounded-lg bg-[#4f46e5] ${tasks.length === 0 ? "hidden" : "block"} transition hover:bg-[#0e0796] px-4 py-3 cursor-pointer text-white`}
+                className={`rounded-lg bg-[#4f46e5] ${tasks.length === 0 ? "hidden" : "block"} transition hover:bg-[#0e0796] hidden sm:block px-4 py-3 cursor-pointer text-white`}
               >
                 + Add Task
               </button>
+               <button
+                onClick={openAddTask}
+                className={`rounded-full bg-[#4f46e5] ${tasks.length === 0 ? "hidden" : "block"} transition hover:bg-[#0e0796] bottom-5 right-5 z-40 shadow-lg fixed h-12 w-12 sm:hidden px-4 py-3 cursor-pointer text-white`}
+              >
+                +
+              </button>
+           </>
             )}
           </div>
 

@@ -30,11 +30,11 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside className="w-84 bg-[#0f1729] p-6 text-white flex flex-col gap-10">
+    <aside className="w-32 sm:w-40 md:w-58 lg:w-84 bg-[#0f1729] p-2 sm:p-6 text-white flex flex-col gap-10">
       
       <div className="flex items-center gap-3 ml-1">
-          <h1 className="bg-[#4f46e5] w-8 h-8 flex justify-center items-center rounded-md font-bold">W</h1>
-         <h2 className="text-xl font-bold">Workspace</h2>
+          <h1 className="bg-[#4f46e5] w-8 h-8 hidden md:flex justify-center items-center rounded-md font-bold">W</h1>
+         <h2 className="text-base sm:text-xl font-bold">Workspace</h2>
       </div>
 
       <nav className="space-y-2">
@@ -54,9 +54,9 @@ export default function Sidebar() {
                     : "text-white/60 hover:bg-gray-700 hover:text-white"
                 }`}
             >
-              <Icon size={20} />
+              <Icon size={20} className="hidden md:block" />
 
-              <span className="font-medium">
+              <span className="font-medium text-xs md:text-base">
                 {item.title}
               </span>
             </Link>
