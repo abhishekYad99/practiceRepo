@@ -36,7 +36,7 @@ const listTasks = asyncHandler(async (req, res) => {
     prisma.task.count({ where }),
   ]);
 
-  res.json({ items, total, page, pageSize });
+  res.json({ results: items, total, page, pageSize });
 });
 
 // GET /api/tasks/:id  (protected)

@@ -88,8 +88,10 @@ export default function Dashboard() {
 
       const data = await getDashboard();
 
+      console.log(data,"data dashboard rohit")
+
       setDashboard({
-        totalTasks: Number(data?.totalTasks ?? 0),
+        totalTasks: Number(data?.total ?? 0),
         pending: Number(data?.pending ?? 0),
         inProgress: Number(data?.inProgress ?? 0),
         completed: Number(data?.completed ?? 0),

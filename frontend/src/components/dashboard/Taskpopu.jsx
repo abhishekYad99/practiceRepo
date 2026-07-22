@@ -5,6 +5,9 @@ import React, { useEffect, useState } from "react";
 import { createTask,updateTask } from "@/services/taskService";
 import { getUsers } from "@/services/userService";
 import { useTask } from "@/context/TaskContext";
+import useTaskStore from "@/stores/taskStore";
+import { toast } from "react-toastify";
+
 
 function Taskpopu({}) {
 
@@ -14,10 +17,15 @@ function Taskpopu({}) {
     editingTask
   } = useTask();
 
+
   if (!open) return null;
 
-  const [users, setUsers] = useState([]);
+  const {addTask,editTask} = useTaskStore()
 
+  const [users, setUsers] = useState([]);
+ 
+
+ const [loading,setLoading] = useState(false)
 
   const [formData, setFormData] = useState({
     title: "",
@@ -60,7 +68,7 @@ function Taskpopu({}) {
 
       console.log("Users", response);
 
-      setUsers(response);
+      setUsers(response.items);
     } catch (error) {
       console.log(error);
     }
@@ -121,23 +129,27 @@ function Taskpopu({}) {
     //   );
     // }
 
-    try {
+   try {
+  
+   setLoading(true)
 
   if (editingTask) {
 
-    await updateTask(editingTask.id, payload);
+    await editTask(editingTask.id, payload);
 
-    alert("Task Updated Successfully");
+    // alert("Task Updated Successfully");
+    toast.success("Task Updated Successfully");
 
   } else {
 
-    await createTask(payload);
+    await addTask(payload);
 
-    alert("Task Created Successfully");
+    // alert("Task Created Successfully");
+    toast.success("Task Created Successfully");
 
   }
 
-  window.dispatchEvent(new Event("task-created"));
+ 
 
   closePopup();
 
@@ -150,6 +162,8 @@ function Taskpopu({}) {
     "Something went wrong"
   );
 
+} finally {
+  setLoading(false)
 }
   };
 
@@ -292,6 +306,7 @@ function Taskpopu({}) {
               <button
                 type="submit"
                 className="rounded-lg bg-blue-600 cursor-pointer px-5 py-2 text-white hover:bg-blue-700"
+                disabled={loading}
               >
                 {editingTask ? "Update Task" : "Create Task"}
               </button>
@@ -304,3 +319,5 @@ function Taskpopu({}) {
 }
 
 export default Taskpopu;
+
+
