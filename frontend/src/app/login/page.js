@@ -26,7 +26,7 @@ export default function LoginPage() {
 
   console.log(formData, "formdata rohit....");
   const handleSubmit = async (event) => {
-    // event.preventDefault();
+    event.preventDefault();
       console.log("Button Click");
     setLoading(true);
     setErrorMessage("");
@@ -69,7 +69,7 @@ export default function LoginPage() {
           <h2 className="text-3xl font-bold text-gray-900">Workspace</h2>
         </div>
 
-        <h1 className="text-4xl font-bold text-gray-900">Welcome back</h1>
+        <h1 className="text-4xl   font-bold text-gray-900">Welcome back</h1>
 
         <p className="text-gray-500 mt-3 mb-8">
           Welcome back - pick up where you left off.
