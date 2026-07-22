@@ -14,6 +14,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const signupSuccess = searchParams.get("signup") === "success";
+  console.log("Search Param:", searchParams.get("signup"));
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -25,7 +26,8 @@ export default function LoginPage() {
 
   console.log(formData, "formdata rohit....");
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    // event.preventDefault();
+      console.log("Button Click");
     setLoading(true);
     setErrorMessage("");
 
@@ -49,7 +51,7 @@ export default function LoginPage() {
       setErrorMessage("Login was successful but no session was returned.");
     } catch (error) {
       setErrorMessage(
-        error?.response?.data?.message || "Invalid email or password",
+        error?.response?.data?.message || "An error occurred during login."     
       );
     } finally {
       setLoading(false);

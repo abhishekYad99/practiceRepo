@@ -2,12 +2,15 @@
 
 import { Pencil, Trash2 } from "lucide-react";
 import { getTasks, deleteTask } from "@/services/taskService";
+import useTaskStore from "@/stores/taskStore";
 import { useEffect, useState } from "react";
 import { useTask } from "@/context/TaskContext";
 import Search from "./Search";
 import DeletePopup from "./DeletePopup";
+import Loading from "./Loading";
+import NoTask from "./NoTask";
+import Error from "./Error";
 export default function TaskTable() {
-  const [tasks, setTasks] = useState([]);
 
   const [serach, setSearch] = useState("");
   const [statusFillter, setStatusFillter] = useState("All statuses");
@@ -17,79 +20,34 @@ export default function TaskTable() {
   const [selectedTaskId, setSelectedTaskId] = useState(null);
   const [loadingDelete, setLoadingDelete] = useState(false);
 
-  const { openEditTask } = useTask();
 
-  console.log(tasks, "rohit....");
+  const { openEditTask,openAddTask} = useTask();
+
+  const {tasks,fetchtask,removeTask,loading,error} = useTaskStore()
+
+  // console.log(tasks,"tasks store rohit")
+
+  // console.log(loading,"loading..............")
+  // console.log(error,"error...")
+  
 
   useEffect(() => {
-    fetchTasks();
 
-    const refreshTasks = () => {
-      fetchTasks();
-    };
+   fetchtask()
 
-    window.addEventListener("task-created", refreshTasks);
-
-    return () => {
-      window.removeEventListener("task-created", refreshTasks);
-    };
   }, []);
 
-  const fetchTasks = async () => {
-    try {
-      const response = await getTasks();
-      setTasks(response.items || []);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // const edittask = (task) =>{
-  //   console.log(task,"task edit.......")
-  //   alert(task.id)
-  // }
-
-  // const handleDelete = (id) =>{
-  //   alert(id)
-  // }
-
-  // const handleDelete = async (id) => {
-  //   const confirmed = window.confirm(
-  //     "Are you sure you want to delete this task?"
-  //   );
-
-  //   if (!confirmed) return;
-
-  //   try {
-  //     await deleteTask(id);
-
-  //     alert("Task deleted successfully");
-
-  //     fetchTasks();
-
-  //   } catch (error) {
-  //  console.log("delete Error:", error);
-  // console.log("response:", error.response);
-  // console.log("aata:", error.response?.data);
-
-  //     alert(
-  //       error.response?.data?.message ||
-  //       "Failed to delete task"
-  //     );
-  //   }
-  // };
 
   const handleDelete = async () => {
     try {
       setLoadingDelete(true);
-      await deleteTask(selectedTaskId);
+      await removeTask(selectedTaskId);
 
       // alert("Task deleted successfully");
 
       setDeleteOpen(false);
       setSelectedTaskId(null);
 
-      fetchTasks();
     } catch (error) {
       // console.log(error);
       console.log("delete Error:", error);
@@ -133,20 +91,41 @@ export default function TaskTable() {
     const matchStatus =
       statusFillter === "All statuses" || task.status === statusFillter;
 
-      // console.log(matchStatus,"matchstatus")
+    // console.log(matchStatus,"matchstatus")
 
     const matchPriority =
       priorityFilter === "All priorties" || task.priority === priorityFilter;
 
-      // console.log(matchPriority,"matchPriority")
+    // console.log(matchPriority,"matchPriority")
 
     return matchsearch && matchStatus && matchPriority;
   });
 
+  
+    if(loading){
+      return <Loading/>
+    }
+
+    if(error){
+      return (
+        <Error
+         onRetry={fetchtask}
+        />
+      )
+    }
+
+    if(tasks.length === 0){
+      return(
+         <NoTask
+         onAddTask={openAddTask}
+         />
+      )
+    }
+
 
   return (
     <div className="flex flex-col gap-8">
-      <div>
+      <div className="">
         <Search
           serach={serach}
           setSearch={setSearch}
@@ -297,4 +276,12 @@ export default function TaskTable() {
     </div>
   );
 }
+
+
+
+
+
+
+
+
 
