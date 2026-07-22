@@ -48,11 +48,14 @@ export default function SignUpPage() {
         email: formData.email.trim().toLowerCase(),
         password: formData.password,
       });
+   console.log("Signup Response:", data);
 
       const token = data?.token;
       const user = data?.user;
 
       if (token && user) {
+        console.log("Signup Success");
+console.log("Response Data:", data);
         router.replace("/login?signup=success");
         return;
       }

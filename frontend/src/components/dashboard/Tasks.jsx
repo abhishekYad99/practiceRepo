@@ -91,12 +91,12 @@ export default function TaskTable() {
     const matchStatus =
       statusFillter === "All statuses" || task.status === statusFillter;
 
-      // console.log(matchStatus,"matchstatus")
+    // console.log(matchStatus,"matchstatus")
 
     const matchPriority =
       priorityFilter === "All priorties" || task.priority === priorityFilter;
 
-      // console.log(matchPriority,"matchPriority")
+    // console.log(matchPriority,"matchPriority")
 
     return matchsearch && matchStatus && matchPriority;
   });

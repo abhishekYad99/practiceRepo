@@ -20,6 +20,8 @@ function Taskpopu({}) {
 
   if (!open) return null;
 
+
+ 
   const {addTask,editTask} = useTaskStore()
 
   const [users, setUsers] = useState([]);
@@ -66,7 +68,7 @@ function Taskpopu({}) {
     try {
       const response = await getUsers();
 
-      console.log("Users", response);
+   console.log("Users Fetched", response);
 
       setUsers(response.items);
     } catch (error) {
@@ -235,7 +237,7 @@ function Taskpopu({}) {
                 >
                   <option value="">Unassigned</option>
 
-                  {users.map((user) => (
+                  {users.items?.map((user) => (
                     <option key={user.id} value={user.id}>
                       {user.name}
                     </option>
