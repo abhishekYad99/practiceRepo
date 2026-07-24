@@ -30,7 +30,7 @@ export default function LoginPage() {
       console.log("Button Click");
     setLoading(true);
     setErrorMessage("");
-
+// Api call --------------------------
     try {
       const { data } = await apiClient.post("/auth/login", {
         email: formData.email.trim().toLowerCase(),
@@ -39,7 +39,7 @@ export default function LoginPage() {
 
       const token = data?.token;
       const user = data?.user;
-
+// authentication logic
       if (token && user) {
         const authenticatedUser = { ...user, accessToken: token };
         setUser(authenticatedUser);
